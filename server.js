@@ -11,7 +11,7 @@ app.use(express.json());
 
 connect();
 app.get("/",(req,res)=>{
-    res.send("<center><h1>Hello, Welcome To FlavorDash!</h1></center>");
+    res.send("<center><h1>ooooo, Welcome To FlavorDash!</h1></center>");
 })
 
 const user = require("./models/User.js");
