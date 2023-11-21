@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const User = mongoose.Schema({
+const userSchema = new mongoose.Schema({
 
     name:{
         type:String,
@@ -11,7 +11,7 @@ const User = mongoose.Schema({
       required:true,
       validate:{
         validator: function(v) {
-          return /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(v);
+          return /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/.test(v);
         },
         message: props => `${props.value} is not a valid password!`
       }
@@ -26,7 +26,7 @@ const User = mongoose.Schema({
         unique: true,
         validate: {
           validator: function(v) {
-            return /\d{3}-\d{3}-\d{4}/.test(v);
+            return /\d{2}-\d{3}-\d{3}/.test(v);
           },
           message: props => `${props.value} is not a valid phone number!`
     }
@@ -38,7 +38,7 @@ const User = mongoose.Schema({
         validate: {
           validator: (value) => {
     
-      const emailRegex = /^[\w-]+(.[\w-]+)*@([\w-]+.)+[a-zA-Z]{2,7}$/;
+      const emailRegex = /\S+@\S+\.\S+/;
     
     
       return emailRegex.test(value);
@@ -47,6 +47,7 @@ const User = mongoose.Schema({
         }
 },
 
-})
+});
 
-module.exports = mongoose.model("Users", User);
+const User = mongoose.model('User', userSchema);
+module.exports = User;
