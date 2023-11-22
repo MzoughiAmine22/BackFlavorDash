@@ -1,4 +1,5 @@
 const ShoppingList = require("../models/ShoppingList.js");
+const Recipe = require("../models/Recipe.js");
 
 class ShoppingListService {
   async createShoppingList(shoppingList) {
@@ -63,6 +64,51 @@ class ShoppingListService {
       }
     } else {
       throw new Error("ShoppingList Not Found");
+    }
+  }
+
+  async addRecipeIngredientsToShoppingList(userId, recipeId) {
+    const shoppingList = await ShoppingList.findOne({ user: userId });
+    const recipe = await Recipe.findById(recipeId);
+    if (shoppingList && recipe) {
+      recipe.ingredients.forEach((ingredient) => {
+        const ingredientIndex = shoppingList.ingredients.findIndex(
+          (item) =>
+            item.ingredient.toString() === ingredient.ingredient.toString()
+        );
+        if (ingredientIndex !== -1) {
+          shoppingList.ingredients[ingredientIndex].quantity +=
+            ingredient.quantity;
+        } else {
+          shoppingList.ingredients.push(ingredient);
+        }
+      });
+      return await shoppingList.save();
+    } else {
+      throw new Error("ShoppingList or Recipe Not Found");
+    }
+  }
+
+  async removeRecipeIngredientsFromShoppingList(userId, recipeId) {
+    const shoppingList = await ShoppingList.findOne({ user: userId });
+    const recipe = await Recipe.findById(recipeId);
+    if (shoppingList && recipe) {
+      recipe.ingredients.forEach((ingredient) => {
+        const ingredientIndex = shoppingList.ingredients.findIndex(
+          (item) =>
+            item.ingredient.toString() === ingredient.ingredient.toString()
+        );
+        if (ingredientIndex !== -1) {
+          shoppingList.ingredients[ingredientIndex].quantity -=
+            ingredient.quantity;
+          if (shoppingList.ingredients[ingredientIndex].quantity <= 0) {
+            shoppingList.ingredients.splice(ingredientIndex, 1);
+          }
+        }
+      });
+      return await shoppingList.save();
+    } else {
+      throw new Error("ShoppingList or Recipe Not Found");
     }
   }
 }
