@@ -1,10 +1,10 @@
 const express = require("express");
-const router = express.Router();
+const ShoppingListController = express.Router();
 const ShoppingListService = require("../services/shoppingListService.js");
 const protectUser = require("../middleware/userAuth.js");
 const asyncHandler = require("express-async-handler");
 
-router.post(
+ShoppingListController.post(
   "/",
   protectUser,
   asyncHandler(async (req, res) => {
@@ -13,7 +13,7 @@ router.post(
   })
 );
 
-router.get(
+ShoppingListController.get(
   "/",
   asyncHandler(async (req, res) => {
     const shoppingLists = await ShoppingListService.getAllShoppingLists();
@@ -21,7 +21,7 @@ router.get(
   })
 );
 
-router.get(
+ShoppingListController.get(
   "/:id",
   protectUser,
   asyncHandler(async (req, res) => {
@@ -40,7 +40,7 @@ router.get(
   })
 );
 
-router.get(
+ShoppingListController.get(
   "/user/:userId",
   protectUser,
   asyncHandler(async (req, res) => {
@@ -55,7 +55,7 @@ router.get(
   })
 );
 
-router.delete(
+ShoppingListController.delete(
   "/:id",
   protectUser,
   asyncHandler(async (req, res) => {
@@ -66,7 +66,7 @@ router.delete(
   })
 );
 
-router.put(
+ShoppingListController.put(
   "/:id",
   protectUser,
   asyncHandler(async (req, res) => {
@@ -78,7 +78,7 @@ router.put(
   })
 );
 
-router.delete(
+ShoppingListController.delete(
   "/:userId/:ingredientId/:quantity",
   protectUser,
   asyncHandler(async (req, res) => {
@@ -96,4 +96,4 @@ router.delete(
   })
 );
 
-module.exports = router;
+module.exports = ShoppingListController;
