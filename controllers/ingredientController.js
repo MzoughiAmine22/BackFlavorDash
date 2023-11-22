@@ -33,7 +33,7 @@ ingredientController.get('/:id', asyncHandler( async ( req, res ) => {
     }
 }))
 
-ingredientController.post('/create', asyncHandler( async ( req, res ) => {
+ingredientController.post('/', asyncHandler( async ( req, res ) => {
     try{
         const {name,description,category,price,image} = req.body;
         const ingredientBody={

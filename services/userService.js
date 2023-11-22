@@ -12,7 +12,7 @@ class UserService{
             const ValidPass = await bycrypt.compare(password, loggeduser.password);
             if(ValidPass)
             {
-                return await loggeduser;
+                return loggeduser;
             }
             else
             {

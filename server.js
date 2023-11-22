@@ -21,6 +21,9 @@ const server = app.listen(
 
 const userController = require("./controllers/userController.js");
 const ingredientController = require("./controllers/ingredientController.js");
-
+const adminController = require("./controllers/adminController.js");
+const recipeController = require("./controllers/recipeController.js");
 app.use("/api/users",userController);
 app.use("/api/ingredients",ingredientController);
+app.use("/api/admins",adminController);
+app.use("/api/recipes",recipeController);
