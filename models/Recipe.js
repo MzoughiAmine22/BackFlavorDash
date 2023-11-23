@@ -6,6 +6,14 @@ const recipeSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  mealType:{
+    type:String,
+    required:true,
+    enum:{
+      values: ['Breakfast', 'Lunch', 'Dinner', 'Snack'],
+      message: '{VALUE} is not supported'
+    }
+  },
   image:{
     type: String,
     required: true
