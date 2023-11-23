@@ -1,4 +1,4 @@
-const Cooklist = require("./Cooklist");
+const Cooklist = require("../models/Cooklist.js");
 const ShoppingListService = require("../services/shoppingListService.js");
 
 class CookListService {

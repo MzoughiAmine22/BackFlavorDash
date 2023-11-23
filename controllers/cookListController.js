@@ -1,6 +1,5 @@
 const express = require("express");
 const cookListRouter = express.Router();
-const CookListService = require("../services/cookListService.js");
 const protectUser = require("../middleware/userAuth.js");
 const asyncHandler = require("express-async-handler");
 const CookListService = require("../services/cookListService.js");
