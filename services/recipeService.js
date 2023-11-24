@@ -8,7 +8,9 @@ class RecipeService {
     return await Recipe.find();
   }
   async getRecipeById(recipeId) {
-    const recipe = await Recipe.findById(recipeId);
+    const recipe = await Recipe.findById(recipeId).populate(
+      "ingredients.ingredient"
+    );
     if (recipe) {
       return recipe;
     } else {
