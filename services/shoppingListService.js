@@ -47,17 +47,14 @@ class ShoppingListService {
     }
   }
 
-  async deleteIngredientFromShoppingList(userId, ingredientId, quantity) {
+  async deleteIngredientFromShoppingList(userId, ingredientId) {
     const shoppingList = await ShoppingList.findOne({ user: userId });
     if (shoppingList) {
       const ingredientIndex = shoppingList.ingredients.findIndex(
         (ingredient) => ingredient.ingredient.toString() === ingredientId
       );
       if (ingredientIndex !== -1) {
-        shoppingList.ingredients[ingredientIndex].quantity -= quantity;
-        if (shoppingList.ingredients[ingredientIndex].quantity <= 0) {
-          shoppingList.ingredients.splice(ingredientIndex, 1);
-        }
+        shoppingList.ingredients.splice(ingredientIndex, 1);
         return await shoppingList.save();
       } else {
         throw new Error("Ingredient Not Found");
@@ -77,8 +74,8 @@ class ShoppingListService {
             item.ingredient.toString() === ingredient.ingredient.toString()
         );
         if (ingredientIndex !== -1) {
-          shoppingList.ingredients[ingredientIndex].quantity +=
-            ingredient.quantity;
+          shoppingList.ingredients[ingredientIndex].mesure +=
+            ", " + ingredient.mesure;
         } else {
           shoppingList.ingredients.push(ingredient);
         }
@@ -99,11 +96,7 @@ class ShoppingListService {
             item.ingredient.toString() === ingredient.ingredient.toString()
         );
         if (ingredientIndex !== -1) {
-          shoppingList.ingredients[ingredientIndex].quantity -=
-            ingredient.quantity;
-          if (shoppingList.ingredients[ingredientIndex].quantity <= 0) {
-            shoppingList.ingredients.splice(ingredientIndex, 1);
-          }
+          shoppingList.ingredients.splice(ingredientIndex, 1);
         }
       });
       return await shoppingList.save();
@@ -112,5 +105,4 @@ class ShoppingListService {
     }
   }
 }
-
 module.exports = new ShoppingListService();

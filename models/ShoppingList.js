@@ -13,6 +13,10 @@ const shoppingListSchema = new mongoose.Schema({
         ref: "Ingredient",
         required: true,
       },
+      mesure: {
+        type: String,
+        required: true,
+      },
     },
   ],
 });
