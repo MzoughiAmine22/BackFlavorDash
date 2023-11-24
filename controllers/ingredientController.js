@@ -36,12 +36,10 @@ ingredientController.post(
   "/",
   asyncHandler(async (req, res) => {
     try {
-      const { name, description, category, price, image } = req.body;
+      const { name, image } = req.body;
       const ingredientBody = {
         name,
-        description,
-        category,
-        price,
+
         image,
       };
       const newIngredient = await ingredient.createIngredient(ingredientBody);

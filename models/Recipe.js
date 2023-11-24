@@ -1,50 +1,59 @@
-
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const recipeSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true
+    required: true,
   },
-  mealType:{
-    type:String,
-    required:true,
-    enum:{
-      values: ['Breakfast', 'Lunch', 'Dinner', 'Snack'],
-      message: '{VALUE} is not supported'
-    }
-  },
-  image:{
+  mealType: {
     type: String,
-    required: true
+    required: true,
+    enum: {
+      values: [
+        "Breakfast",
+        "Lunch",
+        "Dinner",
+        "Snack",
+        "Dessert",
+        "Vegetarian",
+        "Miscellaneous",
+        "Seafood",
+      ],
+
+      message: "{VALUE} is not supported",
+    },
   },
-  ingredients: [{
-    ingredient:{
+  image: {
+    type: String,
+    required: true,
+  },
+  ingredients: [
+    {
+      ingredient: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Ingredient',
-        required: true
+        ref: "Ingredient",
+        required: true,
+      },
+      mesure: {
+        type: String,
+        required: true,
+      },
     },
-    quantity: {
-      type: Number,
-      required: true
-    },
-    unit: {
-      type: String,
-      required: true
-    }
-  }],
-  instructions: [{
-    step:{
+  ],
+  instructions: [
+    {
+      step: {
         type: Number,
-        required: true
+        required: true,
+      },
+      description: {
+        type: String,
+        required: true,
+      },
     },
-    description: {
-      type: String,
-      required: true
-    }
-  }],
+  ],
 });
 
-const Recipe = mongoose.model('Recipe', recipeSchema);
+const Recipe = mongoose.model("Recipe", recipeSchema);
 
 module.exports = Recipe;
