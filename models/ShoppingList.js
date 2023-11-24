@@ -1,23 +1,20 @@
-
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const shoppingListSchema = new mongoose.Schema({
-    user: {
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
+  ingredients: [
+    {
+      ingredient: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
+        ref: "Ingredient",
+        required: true,
+      },
     },
-    ingredients: [{
-        ingredient: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Ingredient',
-            required: true
-        },
-        quantity: {
-            type: Number,
-            required: true
-        }
-    }]
+  ],
 });
-const ShoppingList = mongoose.model('ShoppingList', shoppingListSchema);
+const ShoppingList = mongoose.model("ShoppingList", shoppingListSchema);
 module.exports = ShoppingList;

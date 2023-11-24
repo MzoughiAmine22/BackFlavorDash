@@ -5,8 +5,6 @@ const userController = require("express").Router();
 const bycrypt = require("bcrypt");
 const jwt = require("../config/token.js");
 const protectUser = require("../middleware/userAuth.js");
-/* @basePath /users
- */
 userController.get(
   "/",
   asyncHandler(async (req, res) => {
