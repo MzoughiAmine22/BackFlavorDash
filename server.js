@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const swaggerUi = require("swagger-ui-express");
+const cookieparser = require("cookie-parser");
 const swaggerDocument = require("./swagger_output.json");
 const PORT = process.env.PORT || 5000;
 const app = express();
@@ -12,6 +13,8 @@ app.use(
     credentials: true,
   })
 );
+app.use(cookieparser());
+
 app.use(express.urlencoded());
 app.use(express.json());
 
@@ -32,6 +35,7 @@ const adminController = require("./controllers/adminController.js");
 const recipeController = require("./controllers/recipeController.js");
 const ShoppingListController = require("./controllers/shoppingListController.js");
 const cookListController = require("./controllers/cookListController.js");
+const cookieParser = require("cookie-parser");
 app.use("/api/users", userController);
 app.use("/api/ingredients", ingredientController);
 app.use("/api/admins", adminController);
