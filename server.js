@@ -43,15 +43,24 @@ app.use("/api/cooklist", cookListController);
 
 // async function saveRecipesToDatabase() {
 //   try {
+//     // let response = await fetch(
+//     //   "https://www.themealdb.com/api/json/v1/1/search.php?f=g"
+//     // );
 //     let response = await fetch(
-//       "https://www.themealdb.com/api/json/v1/1/search.php?f=g"
+//       "https://www.themealdb.com/api/json/v1/1/filter.php?c=Dessert"
 //     );
 //     let data = await response.json();
 
-//     for (const meal of data.meals) {
+//     for (const meal1 of data.meals) {
+//       let response1 = await fetch(
+//         "https://www.themealdb.com/api/json/v1/1/lookup.php?i=" + meal1.idMeal
+//       );
+//       let meal = await response1.json();
+//       meal = meal.meals[0];
+//       console.log(meal);
 //       const recipe = new Recipe({
 //         name: meal.strMeal,
-//         mealType: meal.strCategory,
+//         mealType: "Breakfast",
 //         image: meal.strMealThumb,
 //         ingredients: [],
 //         instructions: [],
@@ -65,7 +74,10 @@ app.use("/api/cooklist", cookListController);
 //           let ingredient = await Ingredient.findOne({ name: ingredientName });
 
 //           if (!ingredient) {
-//             let imageUrl = await fetchGoogleImage(ingredientName);
+//             let imageUrl =
+//               "https://www.themealdb.com/images/ingredients/" +
+//               ingredientName +
+//               ".png";
 
 //             ingredient = new Ingredient({
 //               name: ingredientName,
@@ -84,10 +96,13 @@ app.use("/api/cooklist", cookListController);
 
 //       const instructions = meal.strInstructions.split("\r\n");
 //       for (let i = 0; i < instructions.length; i++) {
-//         recipe.instructions.push({
-//           step: i + 1,
-//           description: instructions[i],
-//         });
+//         if (instructions[i].trim() !== "") {
+//           // Add this line
+//           recipe.instructions.push({
+//             step: i + 1,
+//             description: instructions[i],
+//           });
+//         }
 //       }
 //       console.log(recipe);
 //       await recipe.save();
