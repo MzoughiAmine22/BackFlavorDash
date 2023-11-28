@@ -4,6 +4,8 @@ const userService = require("../services/userService.js");
 const userController = require("express").Router();
 const bycrypt = require("bcrypt");
 const jwt = require("../config/token.js");
+const Jwt = require("jsonwebtoken");
+
 const protectUser = require("../middleware/userAuth.js");
 userController.get(
   "/",
@@ -40,7 +42,7 @@ userController.post(
 );
 
 userController.get(
-  "/:id",
+  "getbyid/:id",
   asyncHandler(async (req, res) => {
     try {
       const user = await userService.getUserById(req.params.id);
@@ -50,20 +52,64 @@ userController.get(
         res.status(401).json({ msg: "User Not Found" });
       }
     } catch (error) {
-      res.send.json({ msg: error.message });
+      res.status(401).json({ msg: error.message });
     }
   })
 );
 
+userController.get(
+  "/cookie",
+  asyncHandler(async (req,res)=>{
+    try{
+      const cookie = req.cookies['token'];
+      const claims = Jwt.verify(cookie,"secret");
+
+      if(!claims)
+      {
+        res.status(401).json({msg:"Unauthenticed man!"});
+      }
+      const user = await User.findOne({_id:claims._id});
+
+      res.status(201).json(
+        {user,
+          message:"Got Cookie Successfully"
+        }
+      )
+    }
+    catch(error)
+    {
+      res.status(401).json({msg:error.message});
+    }
+  })
+)
+
+userController.get(
+  "/logout",
+  asyncHandler(async (req,res)=>{
+    try{
+      res.cookie('token','',{httpOnly:true,maxAge:0});
+      res.clearCookie('token','',{httpOnly:true,maxAge:24*60*60*1000});
+      res.status(201).json({message:"Logged Out Successfully"});
+    }
+    catch(error)
+    {
+      res.status(401).json({messag:error.message});
+    }
+  })
+)
+
+
 userController.post(
   "/login",
-  protectUser,
   asyncHandler(async (req, res) => {
     try {
       const { email, password } = req.body;
       const user = await userService.loginUser(email, password);
       if (user) {
-        res.status(201).json({ user: user, token: jwt(user) });
+
+        const token = jwt(user);
+        res.cookie('token',token,{httpOnly: true,maxAge:24*60*60*1000})
+        res.status(201).json({ user: user, token:token});
       } else {
         res.status(401).json({ msg: "Wrong Credentials" });
       }

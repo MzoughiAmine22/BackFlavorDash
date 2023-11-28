@@ -23,14 +23,13 @@ recipeController.get(
     try {
       const recipeId = req.params.id;
       const recipe = await recipeService.getRecipeById(recipeId);
-
       if (recipe) {
-        res.status(200).json(recipe);
+        res.status(201).json(recipe);
       } else {
-        res.status(404).json({ msg: "Recipe Not Found" });
+        res.status(401).json({ msg: "Recipe Not Found" });
       }
     } catch (error) {
-      res.status(500).json({ msg: error.message });
+      res.status(404).json({ msg: error.message });
     }
   })
 );
@@ -39,7 +38,7 @@ recipeController.post(
   "/",
   asyncHandler(async (req, res) => {
     try {
-      const { name, ingredients, instructions, image, mealType } = req.body;
+      const { name, ingredients, instructions, image,mealType } = req.body;
       const recipeBody = {
         name,
         ingredients,
@@ -88,10 +87,12 @@ recipeController.put(
   })
 );
 
+
+
 recipeController.get(
   "/q/",
   asyncHandler(async (req, res) => {
-    const { name, ingredientName, maxSteps, mealType } = req.query;
+    const { name, ingredientName, maxSteps,mealType } = req.query;
     let query = {};
     if (name) {
       query.name = { $regex: new RegExp(name, "i") };
