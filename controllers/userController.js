@@ -62,23 +62,23 @@ userController.get(
   asyncHandler(async (req,res)=>{
     try{
       const cookie = req.cookies['token'];
-      const claims = Jwt.verify(cookie,"secret");
+      const claims = Jwt.verify(cookie,"FlavorDashSecretKey");
 
       if(!claims)
       {
         res.status(401).json({msg:"Unauthenticed man!"});
       }
       const user = await User.findOne({_id:claims._id});
-
+      console.log(cookie);
       res.status(201).json(
-        {user,
+        {user:user,
           message:"Got Cookie Successfully"
         }
       )
     }
     catch(error)
     {
-      res.status(401).json({msg:error.message});
+      res.status(500).json({msg:error.message});
     }
   })
 )
