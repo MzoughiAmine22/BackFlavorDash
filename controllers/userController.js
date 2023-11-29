@@ -59,45 +59,42 @@ userController.get(
 
 userController.get(
   "/cookie",
-  asyncHandler(async (req,res)=>{
-    try{
-      const cookie = req.cookies['token'];
-      const claims = Jwt.verify(cookie,"FlavorDashSecretKey");
+  asyncHandler(async (req, res) => {
+    try {
+      const cookie = req.cookies["token"];
+      const claims = Jwt.verify(cookie, "FlavorDashSecretKey");
 
-      if(!claims)
-      {
-        res.status(401).json({msg:"Unauthenticed man!"});
+      if (!claims) {
+        res.status(401).json({ msg: "Unauthenticed man!" });
       }
-      const user = await User.findOne({_id:claims._id});
+      const user = await User.findOne({ _id: claims._id });
       console.log(cookie);
-      res.status(201).json(
-        {user:user,
-          message:"Got Cookie Successfully"
-        }
-      )
-    }
-    catch(error)
-    {
-      res.status(500).json({msg:error.message});
+      res.status(201).json({
+        user: user,
+        token: cookie,
+        message: "Got Cookie Successfully",
+      });
+    } catch (error) {
+      res.status(500).json({ msg: error.message });
     }
   })
-)
+);
 
 userController.get(
   "/logout",
-  asyncHandler(async (req,res)=>{
-    try{
-      res.cookie('token','',{httpOnly:true,maxAge:0});
-      res.clearCookie('token','',{httpOnly:true,maxAge:24*60*60*1000});
-      res.status(201).json({message:"Logged Out Successfully"});
-    }
-    catch(error)
-    {
-      res.status(401).json({messag:error.message});
+  asyncHandler(async (req, res) => {
+    try {
+      res.cookie("token", "", { httpOnly: true, maxAge: 0 });
+      res.clearCookie("token", "", {
+        httpOnly: true,
+        maxAge: 24 * 60 * 60 * 1000,
+      });
+      res.status(201).json({ message: "Logged Out Successfully" });
+    } catch (error) {
+      res.status(401).json({ messag: error.message });
     }
   })
-)
-
+);
 
 userController.post(
   "/login",
@@ -106,10 +103,12 @@ userController.post(
       const { email, password } = req.body;
       const user = await userService.loginUser(email, password);
       if (user) {
-
         const token = jwt(user);
-        res.cookie('token',token,{httpOnly: true,maxAge:24*60*60*1000})
-        res.status(201).json({ user: user, token:token});
+        res.cookie("token", token, {
+          httpOnly: true,
+          maxAge: 24 * 60 * 60 * 1000,
+        });
+        res.status(201).json({ user: user, token: token });
       } else {
         res.status(401).json({ msg: "Wrong Credentials" });
       }

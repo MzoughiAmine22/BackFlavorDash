@@ -17,12 +17,14 @@ class CookListService {
     if (!cooklist) {
       return this.createCooklist(userId, recipeId);
     }
-    cooklist.recipes.push(recipeId);
-    await cooklist.save();
-    await ShoppingListService.addRecipeIngredientsToShoppingList(
-      userId,
-      recipeId
-    );
+    if (!cooklist.recipes.includes(recipeId)) {
+      cooklist.recipes.push(recipeId);
+      await cooklist.save();
+      await ShoppingListService.addRecipeIngredientsToShoppingList(
+        userId,
+        recipeId
+      );
+    }
     return cooklist;
   }
 
@@ -57,5 +59,4 @@ class CookListService {
     return cooklists;
   }
 }
-
-module.exports = CookListService;
+module.exports = new CookListService();

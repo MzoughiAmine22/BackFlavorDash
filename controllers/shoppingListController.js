@@ -22,18 +22,18 @@ ShoppingListController.get(
 );
 
 ShoppingListController.get(
-  "/:id",
-  protectUser,
+  "getById/:id",
   asyncHandler(async (req, res) => {
     try {
       const shoppingList = await ShoppingListService.getShoppingListById(
         req.params.id
       );
-      if (shoppingList.user === req.user._id) {
-        res.json(shoppingList);
-      } else {
-        res.status(401).json({ msg: "ShoppingList Doesnt Belong to user " });
-      }
+      // if (shoppingList.user === req.user._id) {
+      //   res.json(shoppingList);
+      // } else {
+      //   res.status(401).json({ msg: "ShoppingList Doesnt Belong to user " });
+      // }
+      res.json(shoppingList);
     } catch (error) {
       res.status(401).json({ msg: "ShoppingList Not Found" });
     }
@@ -41,12 +41,12 @@ ShoppingListController.get(
 );
 
 ShoppingListController.get(
-  "/user/:userId",
+  "/user",
   protectUser,
   asyncHandler(async (req, res) => {
     try {
       const shoppingList = await ShoppingListService.getShoppingListByUserId(
-        req.params.userId
+        req.user._id
       );
       res.json(shoppingList);
     } catch (error) {
@@ -79,15 +79,14 @@ ShoppingListController.put(
 );
 
 ShoppingListController.delete(
-  "/:userId/:ingredientId/:quantity",
+  "/deleteIngredient/:ingredientId",
   protectUser,
   asyncHandler(async (req, res) => {
     try {
       const shoppingList =
         await ShoppingListService.deleteIngredientFromShoppingList(
-          req.params.userId,
-          req.params.ingredientId,
-          req.params.quantity
+          req.user._id,
+          req.params.ingredientId
         );
       res.json(shoppingList);
     } catch (error) {

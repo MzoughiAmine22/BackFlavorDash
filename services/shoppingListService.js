@@ -10,7 +10,9 @@ class ShoppingListService {
     return await ShoppingList.find();
   }
   async getShoppingListById(shoppingListId) {
-    const shoppingList = await ShoppingList.findById(shoppingListId);
+    const shoppingList = await ShoppingList.findById(shoppingListId).populate(
+      "ingredients.ingredient"
+    );
     if (shoppingList) {
       return shoppingList;
     } else {
@@ -18,8 +20,15 @@ class ShoppingListService {
     }
   }
   async getShoppingListByUserId(userId) {
-    const shoppingList = await ShoppingList.find({ user: userId });
+    let shoppingList = await ShoppingList.findOne({ user: userId }).populate(
+      "ingredients.ingredient"
+    );
     if (shoppingList) {
+      shoppingList.ingredients.sort((a, b) => {
+        const aMeasures = a.mesure.split(",").length;
+        const bMeasures = b.mesure.split(",").length;
+        return bMeasures - aMeasures;
+      });
       return shoppingList;
     } else {
       throw new Error("ShoppingList Not Found");
@@ -65,9 +74,12 @@ class ShoppingListService {
   }
 
   async addRecipeIngredientsToShoppingList(userId, recipeId) {
-    const shoppingList = await ShoppingList.findOne({ user: userId });
+    let shoppingList = await ShoppingList.findOne({ user: userId });
     const recipe = await Recipe.findById(recipeId);
-    if (shoppingList && recipe) {
+    if (!shoppingList) {
+      shoppingList = new ShoppingList({ user: userId, ingredients: [] });
+    }
+    if (recipe) {
       recipe.ingredients.forEach((ingredient) => {
         const ingredientIndex = shoppingList.ingredients.findIndex(
           (item) =>
@@ -82,7 +94,7 @@ class ShoppingListService {
       });
       return await shoppingList.save();
     } else {
-      throw new Error("ShoppingList or Recipe Not Found");
+      throw new Error("Recipe Not Found");
     }
   }
 
