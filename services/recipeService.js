@@ -5,7 +5,7 @@ class RecipeService {
     return await newRecipe.save();
   }
   async getAllRecipes() {
-    return await Recipe.find();
+    return await Recipe.find().populate("ingredients.ingredient");
   }
   async getRecipeById(recipeId) {
     const recipe = await Recipe.findById(recipeId).populate(
@@ -30,7 +30,8 @@ class RecipeService {
     if (recipe) {
       recipe.name = updatedRecipe.name || recipe.name;
       recipe.ingredients = updatedRecipe.ingredients || recipe.ingredients;
-      recipe.steps = updatedRecipe.steps || recipe.steps;
+      recipe.mealType = updatedRecipe.mealType || recipe.mealType;
+      recipe.instructions = updatedRecipe.instructions || recipe.instructions;
       recipe.image = updatedRecipe.image || recipe.image;
       return await recipe.save();
     } else {

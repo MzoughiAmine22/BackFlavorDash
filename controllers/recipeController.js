@@ -38,7 +38,7 @@ recipeController.post(
   "/",
   asyncHandler(async (req, res) => {
     try {
-      const { name, ingredients, instructions, image,mealType } = req.body;
+      const { name, ingredients, instructions, image, mealType } = req.body;
       const recipeBody = {
         name,
         ingredients,
@@ -72,11 +72,12 @@ recipeController.put(
   asyncHandler(async (req, res) => {
     try {
       const recipeId = req.params.id;
-      const { name, ingredients, steps, image } = req.body;
+      const { name, ingredients, instructions, mealType, image } = req.body;
       const updatedRecipe = {
         name,
+        mealType,
         ingredients,
-        steps,
+        instructions,
         image,
       };
       const recipe = await recipeService.updateRecipe(recipeId, updatedRecipe);
@@ -87,12 +88,10 @@ recipeController.put(
   })
 );
 
-
-
 recipeController.get(
   "/q/",
   asyncHandler(async (req, res) => {
-    const { name, ingredientName, maxSteps,mealType } = req.query;
+    const { name, ingredientName, maxSteps, mealType } = req.query;
     let query = {};
     if (name) {
       query.name = { $regex: new RegExp(name, "i") };
