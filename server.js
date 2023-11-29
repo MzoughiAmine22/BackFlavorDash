@@ -43,6 +43,29 @@ app.use("/api/recipes", recipeController);
 app.use("/api/shopping", ShoppingListController);
 app.use("/api/cooklist", cookListController);
 
+
+//const Admin = require("./models/Admin.js");
+
+//const bycrypt = require("bcrypt");
+
+/*async function createAdmin(){
+  try{
+    const salt = await bycrypt.genSalt(10);
+    const hashedPassword = await bycrypt.hash("flavoradmin", salt);
+    const admin = new Admin({
+      name:"admin",
+      email:"adminflavordash@gmail.com",
+      password:hashedPassword,
+  })
+  await admin.save();
+}
+catch(error){
+  console.log(error);
+}
+}
+
+createAdmin();
+*/
 // const Recipe = require("./models/Recipe");
 // const Ingredient = require("./models/Ingredient");
 

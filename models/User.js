@@ -46,6 +46,10 @@ const userSchema = new mongoose.Schema({
           message: 'Invalid email address'
         }
 },
+joinDate: {
+  type: Date,
+  default: Date.now
+},
 
 });
 

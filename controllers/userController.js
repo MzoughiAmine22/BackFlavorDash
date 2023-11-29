@@ -159,7 +159,6 @@ userController.put(
 
 userController.delete(
   "/:id",
-  protectUser,
   asyncHandler(async (req, res) => {
     try {
       const user = await userService.deleteUser(req.params.id);
