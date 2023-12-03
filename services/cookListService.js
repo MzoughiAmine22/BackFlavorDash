@@ -3,7 +3,11 @@ const ShoppingListService = require("../services/shoppingListService.js");
 
 class CookListService {
   async createCooklist(userId, recipeId) {
-    const newCooklist = new Cooklist({ user: userId, recipes: [recipeId] });
+    userId = userId.toString();
+    const newCooklist = new Cooklist({
+      user: userId,
+      recipes: [recipeId],
+    });
     await newCooklist.save();
     await ShoppingListService.addRecipeIngredientsToShoppingList(
       userId,

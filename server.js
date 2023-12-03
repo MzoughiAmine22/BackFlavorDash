@@ -43,7 +43,6 @@ app.use("/api/recipes", recipeController);
 app.use("/api/shopping", ShoppingListController);
 app.use("/api/cooklist", cookListController);
 
-
 //const Admin = require("./models/Admin.js");
 
 //const bycrypt = require("bcrypt");
@@ -75,7 +74,7 @@ createAdmin();
 //     //   "https://www.themealdb.com/api/json/v1/1/search.php?f=g"
 //     // );
 //     let response = await fetch(
-//       "https://www.themealdb.com/api/json/v1/1/filter.php?c=Dessert"
+//       "https://www.themealdb.com/api/json/v1/1/filter.php?c=Miscellaneous"
 //     );
 //     let data = await response.json();
 
@@ -88,7 +87,7 @@ createAdmin();
 //       console.log(meal);
 //       const recipe = new Recipe({
 //         name: meal.strMeal,
-//         mealType: "Breakfast",
+//         mealType: "Miscellaneous",
 //         image: meal.strMealThumb,
 //         ingredients: [],
 //         instructions: [],
