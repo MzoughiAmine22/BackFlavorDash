@@ -9,7 +9,7 @@ const connect = require("./config/connect.js");
 app.use(express.static("public"));
 app.use(
   cors({
-    origin: "http://localhost:4200",
+    origin: "https://front-flavor-dash.vercel.app",
     credentials: true,
   })
 );
