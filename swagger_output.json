@@ -5,7 +5,7 @@
     "title": "REST API",
     "description": ""
   },
-  "host": "localhost:5000",
+  "host": "https://flavord.onrender.com",
   "basePath": "/",
   "schemes": ["http"],
   "paths": {
