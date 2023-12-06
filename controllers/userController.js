@@ -87,8 +87,7 @@ userController.get(
       res.cookie("token", "", { httpOnly: true, maxAge: 0 });
       res.clearCookie("token", "", {
         httpOnly: true,
-        maxAge: 15*24*60*60,
-        domain: "flavord.onrender.com",
+        maxAge: 24 * 60 * 60 * 1000,
       });
       res.status(201).json({ message: "Logged Out Successfully" });
     } catch (error) {
@@ -107,8 +106,7 @@ userController.post(
         const token = jwt(user);
         res.cookie("token", token, {
           httpOnly: true,
-          domain: "flavord.onrender.com",
-          maxAge: 15*24*60*60,
+          maxAge: 24 * 60 * 60 * 1000,
         });
         res.status(201).json({ user: user, token: token });
       } else {

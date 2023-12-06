@@ -16,7 +16,7 @@ adminController.post(
         if(admin)
         {
             const token = jwt(admin);
-            res.cookie('othertoken',token,{httpOnly:true,maxAge:15*24*60*60});
+            res.cookie('othertoken',token,{httpOnly:true,maxAge:24*60*60*1000});
             res.status(201).json({admin:admin, othertoken:token});
         }
         else
@@ -62,7 +62,7 @@ adminController.get(
     asyncHandler(async (req,res)=>{
       try{
         res.cookie('othertoken','',{httpOnly:true,maxAge:0});
-        res.clearCookie('othertoken','',{httpOnly:true,maxAge:15*24*60*60});
+        res.clearCookie('othertoken','',{httpOnly:true,maxAge:24*60*60*1000});
         res.status(201).json({message:"Logged Out Successfully"});
       }
       catch(error)
