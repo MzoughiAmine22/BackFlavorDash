@@ -87,7 +87,7 @@ userController.get(
       res.cookie("token", "", { httpOnly: true, maxAge: 0 });
       res.clearCookie("token", "", {
         httpOnly: true,
-        maxAge: 24 * 60 * 60 * 1000,
+        maxAge: 15*24*60*60,
       });
       res.status(201).json({ message: "Logged Out Successfully" });
     } catch (error) {
@@ -106,7 +106,7 @@ userController.post(
         const token = jwt(user);
         res.cookie("token", token, {
           httpOnly: true,
-          maxAge: 24 * 60 * 60 * 1000,
+          maxAge: 15*24*60*60,
         });
         res.status(201).json({ user: user, token: token });
       } else {

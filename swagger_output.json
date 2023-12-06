@@ -5,9 +5,9 @@
     "title": "REST API",
     "description": ""
   },
-  "host": "https://flavord.onrender.com",
+  "host": "flavord.onrender.com",
   "basePath": "/",
-  "schemes": ["http"],
+  "schemes": ["https"],
   "paths": {
     "/": {
       "get": {
